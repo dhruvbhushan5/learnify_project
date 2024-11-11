@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Checkout</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+   <header class="header">
+      <section class="flex">
+         <a href="#" class="logo"><img src="WhatsApp Image 2024-08-01 at 14.25.29_18772675.jpg" alt="" height="90px"></a>
+         <form action="search.html" method="post" class="search-form">
+            <input type="text" name="search_box" required placeholder="search courses..." maxlength="100">
+            <button type="submit" class="fas fa-search"></button>
+         </form>
+         <div class="icons">
+            <!-- <div id="menu-btn" class="fas fa-bars"></div> -->
+            <div id="search-btn" class="fas fa-search"></div>
+            <div id="user-btn" class="fas fa-user"></div>
+         </div>
+         <div class="profile">
+            <img src="pic-1.jpg" class="image" alt="">
+            <h3 class="name">Dhruv</h3>
+            <p class="role">student</p>
+            <a href="profile.html" class="btn">view profile</a>
+            <div class="flex-btn">
+               <a href="register.html" class="option-btn">register</a>
+            </div>
+         </div>
+      </section>
+   </header>   
+   
+   <div class="side-bar">
+      <div class="profile">
+         <img src="pic-1.jpg" class="image" alt="">
+         <h3 class="name">Dhruv</h3>
+         <p class="role">student</p>
+         <a href="profile.html" class="btn">view profile</a>
+      </div>
+      <nav class="navbar">
+         <a href="index.html"><i class="fas fa-home"></i><span>home</span></a>
+         <a href="about.html"><i class="fas fa-question"></i><span>about</span></a>
+         <a href="courses.html"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+         <a href="teacher.html"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+         <a href="contact.html"><i class="fas fa-headset"></i><span>contact us</span></a>
+         <a href="paid.html"><i class="fa-solid fa-school"></i><span>Paid Courses</span></a>
+      </nav>
+   </div>
+
+   <section class="checkout">
+      <h3>Checkout</h3>
+   
+      <div class="order-summary">
+       
+      </div>
+   
+      <form action="payment.html" method="post" class="checkout-form">
+         <h2>Billing Information</h2>
+         <label for="fullName">Full Name:</label>
+         <input type="text" placeholder="name" name="name" required maxlength="50" class="box">
+   
+         <label for="email">Email:</label>
+         <input type="email" placeholder="enter your email" name="email" required maxlength="50" class="box">
+   
+         <label for="address">Address:</label>
+         <input type="text" placeholder="your address" name="address" required maxlength="50" class="box">
+   
+         <label for="city">City:</label>
+         <input type="text" placeholder="your city" name="city" required maxlength="50" class="box">
+   
+         <label for="zip">ZIP Code:</label>
+         <input type="text" placeholder="your zip code" name="zip" required maxlength="50" class="box">
+   
+         <h2>Payment Method</h2>
+         <label for="paymentMethod">Select Payment Method:</label>
+         <div>
+            <input type="radio" id="card" name="payment_method" value="card">
+            <label for="card">Credit/Debit Card</label>
+         </div>
+   
+         <div id="card-payment" style="display: none;">
+            <label for="cardName">Cardholder Name:</label>
+            <input type="text" placeholder="cardholder name" name="card_name" required maxlength="50" class="box">
+   
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" placeholder="card number" name="card_number" required maxlength="16" class="box">
+   
+            <label for="expDate">Expiry Date:</label>
+            <input type="date" name="exp_date" required class="box">
+   
+            <label for="cvv">CVV:</label>
+            <input type="text" placeholder="CVV" name="cvv" required maxlength="4" class="box">
+         </div>
+   
+         <div>
+            <input type="radio" id="upi" name="payment_method" value="upi">
+            <label for="upi">UPI</label>
+         </div>
+   
+         <div id="upi-payment" style="display: none;">
+            <label for="upiId">UPI ID:</label>
+            <input type="text" placeholder="Enter your UPI ID" name="upi_id" maxlength="50" class="box">
+         </div>
+   
+         <input type="submit" value="Complete Purchase" class="inline-btn" name="submit">
+      </form>
+   </section>
+   <footer class="footer">
+
+      &copy; copyright @ 2024 by <span>learnify</span> | all rights reserved!
+   
+   </footer>
+   
+   <script>
+
+   const usdToInrRate = 1;
+   
+
+   let selectedCourses = JSON.parse(localStorage.getItem('selectedCourses')) || [];
+   let totalPriceInUsd = parseFloat(localStorage.getItem('totalPrice')) || 0;
+   
+  
+   let totalPriceInInr = totalPriceInUsd * usdToInrRate;
+
+   let orderSummary = document.querySelector('.order-summary');
+   orderSummary.innerHTML = "<h2>Order Summary</h2>";
+   
+   if (selectedCourses.length > 0) {
+      selectedCourses.forEach((course, index) => {
+         let courseElement = document.createElement('div');
+         courseElement.innerHTML = `
+            <p style="font-size: 20px; font-weight: 700;">${course.course} - Price: ₹${course.price}</p>
+            <button class="cancel-btn" data-index="${index}" style="background-color: red;font-size: 17px; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px;">Cancel</button>
+         `;
+         orderSummary.appendChild(courseElement);
+      });
+   
+   
+      let totalElement = document.createElement('p');
+      totalElement.classList.add('total-price');
+      totalElement.style.fontSize = '16px';  
+totalElement.style.fontWeight = '600';
+      totalElement.textContent = `Total: ₹${totalPriceInInr.toFixed(2)}`;
+      orderSummary.appendChild(totalElement);
+   } else {
+      orderSummary.innerHTML += "<p>No courses selected</p>";
+   }
+   
+   
+   function cancelCourse(index) {
+      let removedCourse = selectedCourses.splice(index, 1)[0]; // Remove course
+      totalPriceInUsd -= parseFloat(removedCourse.price); // Subtract price from total
+      totalPriceInInr = totalPriceInUsd * usdToInrRate; // Recalculate total in INR
+      localStorage.setItem('selectedCourses', JSON.stringify(selectedCourses));
+      localStorage.setItem('totalPrice', totalPriceInUsd.toFixed(2));
+      location.reload(); // Refresh the page to update the displayed courses and total
+   }
+   
+   
+   document.querySelectorAll('.cancel-btn').forEach(button => {
+      button.addEventListener('click', function() {
+         let courseIndex = this.getAttribute('data-index');
+         cancelCourse(courseIndex);
+      });
+   });
+   
+ 
+   const cardPayment = document.getElementById('card');
+   const upiPayment = document.getElementById('upi');
+   const cardPaymentDiv = document.getElementById('card-payment');
+   const upiPaymentDiv = document.getElementById('upi-payment');
+   
+   
+   function togglePaymentMethod() {
+       if (cardPayment.checked) {
+           cardPaymentDiv.style.display = 'block';
+           upiPaymentDiv.style.display = 'none';
+       } else if (upiPayment.checked) {
+           cardPaymentDiv.style.display = 'none';
+           upiPaymentDiv.style.display = 'block';
+       }
+   }
+   
+  
+   cardPayment.addEventListener('change', togglePaymentMethod);
+   upiPayment.addEventListener('change', togglePaymentMethod);
+   
+
+   document.addEventListener('DOMContentLoaded', togglePaymentMethod);
+
+   const userBtn = document.getElementById('user-btn');
+const profile = document.querySelector('.profile');
+
+// Add a click event listener to toggle the profile visibility
+userBtn.addEventListener('click', () => {
+   profile.classList.toggle('active');
+});
+   </script>
+   
+</body>
+</html>
